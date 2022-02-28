@@ -7,13 +7,13 @@
   <thead>
     <tr>
       <!--<th>Movie Title</th>-->
-      <th class = "<%= "hilite" if @titleClass %>" >
+      <th class = "hilite <%= "bg-warning" if @titleClass %>" >
         <%= link_to "Movie Title", :sort => "title", id: "title_header" %>
       </th>
       
       <th>Rating</th>
       
-      <th class = "<%= "hilite" if @releaseClass %>">
+      <th class = "hilite <%= "bg-warning" if @releaseClass %>">
         <%= link_to "Release Date", :sort => "release_date", id: "release_date_header" %>
       </th>
       
