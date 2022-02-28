@@ -11,24 +11,54 @@ class MoviesController < ApplicationController
     # Read all the possible ratings in the Model
     @all_ratings = Movie.uniq.pluck(:rating)
     
-    if params[:sort] == nil 
+    if params[:ratings] == nil
+      params[:ratings] = session[:ratings]
+    end
+    
+    if params[:sort] == nil
+      params[:sort] = session[:sort]
+    end
+    
+    # the very first time the webpage is opened
+    if params[:ratings] == nil && params[:sort] == nil
       @movies = Movie.all
       @titleClass = false
       @releaseClass = false
       
-    elsif params[:sort] == "title"
-      @movies = Movie.order(params[:sort])
-      @titleClass = true
-      @releaseClass = false
-      
-    elsif params[:sort] == "release_date"
-      @movies = Movie.order(params[:sort]).reverse_order
-      @titleClass = false
-      @releaseClass = true
-    end
-    
-    if params[:ratings] != nil
+    elsif params[:ratings] != nil && params[:sort] == nil
       @movies = Movie.where(rating: params[:ratings].keys)
+      @titleClass = false
+      @releaseClass = false
+      session[:ratings] = params[:ratings]
+      
+    elsif params[:ratings] == nil && params[:sort] != nil
+      
+      if params[:sort] == "title"
+        @movies = Movie.order(params[:sort])
+        @titleClass = true
+        @releaseClass = false
+        session[:sort] = params[:sort]
+        
+      elsif params[:sort] == "release_date"
+        @movies = Movie.order(params[:sort]).reverse_order
+        @titleClass = false
+        @releaseClass = true
+        session[:sort] = params[:sort]
+      end
+      
+    else # sorting and filtering simultaneously
+      if params[:sort] == "title"
+        @movies = Movie.where(rating: params[:ratings].keys).order(params[:sort])
+        @titleClass = true
+        @releaseClass = false
+      
+      elsif params[:sort] == "release_date"
+        @movies = Movie.where(rating: params[:ratings].keys).order(params[:sort]).reverse_order
+        @titleClass = false
+        @releaseClass = true
+      end
+      session[:sort] = params[:sort]
+      session[:ratings] = params[:ratings]
     end
     
   end
