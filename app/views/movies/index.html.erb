@@ -7,10 +7,20 @@
   <thead>
     <tr>
       <!--<th>Movie Title</th>-->
-      <th><%= link_to "Movie Title", :sort => "title" %></th>
+      <th>
+        <a href="#" id="title_header">
+          <%= link_to "Movie Title", :sort => "title" %>
+        </a>
+      </th>
+      
       <th>Rating</th>
-      <!--<th>Release Date</th>-->
-      <th><%= link_to "Release Date", :sort => "release_date" %></th>
+      
+      <th>
+        <a href="#" id="title_header">
+          <%= link_to "Release Date", :sort => "release_date" %>
+        </a>
+      </th>
+      
       <th>More Info</th>
     </tr>
   </thead>
