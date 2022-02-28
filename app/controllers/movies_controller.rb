@@ -8,6 +8,8 @@ class MoviesController < ApplicationController
 
   def index
     
+    # Read all the possible ratings in the Model
+    @all_ratings = Movie.uniq.pluck(:rating)
     
     if params[:sort] == nil 
       @movies = Movie.all
@@ -23,6 +25,10 @@ class MoviesController < ApplicationController
       @movies = Movie.order(params[:sort]).reverse_order
       @titleClass = false
       @releaseClass = true
+    end
+    
+    if params[:ratings] != nil
+      @movies = Movie.where(rating: params[:ratings].keys)
     end
     
   end
